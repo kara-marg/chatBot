@@ -1,11 +1,10 @@
-print('gpt')
 from libraries import Dispatcher, types, Bot, executor, json
 from libraries import dp, bot
 from libraries import openai
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-print('gpt')
+
 file = open('config.json', 'r')
 config = json.load(file)
 

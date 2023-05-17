@@ -12,7 +12,7 @@ async def start(message: types.Message):
 
 @dp.message_handler(text='ChatAI')
 async def bot_message(message: types.Message):
-    print('xyeta')
+
     import chatgpt
 @dp.message_handler(text='Translate')
 async def bot_message_translate(message: types.Message):
