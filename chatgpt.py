@@ -1,10 +1,11 @@
+print('gpt')
 from libraries import Dispatcher, types, Bot, executor, json
 from libraries import dp, bot
 from libraries import openai
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-
+print('gpt')
 file = open('config.json', 'r')
 config = json.load(file)
 
@@ -24,15 +25,17 @@ class MyStates(StatesGroup):
 def update(messages, role, content):
     messages.append({"role": role, "content": content})
     return messages
+# async def start():
+#     await bot.send_message('Привіт! Задай мені питання)')
 
-
-@dp.message_handler(commands=['startgpt'])
-async def start_command(message: types.Message):
-    await message.answer('Привіт! Задай мені питання)')
+# @dp.message_handler(commands=['startgpt'])
+# async def start_command(message: types.Message):
+#     await message.answer('Привіт! Задай мені питання)')
 
 @dp.message_handler(commands=['stopgpt'])
 async def start_command(message: types.Message):
     await message.answer('Гарного для! Слава Україні!')
+
 
 @dp.message_handler(state=MyStates.WAITING_FOR_INPUT, content_types=types.ContentType.TEXT)
 async def handle_input(message: types.Message, state: FSMContext):
