@@ -26,11 +26,6 @@ def update(messages, role, content):
     messages.append({"role": role, "content": content})
     return messages
 
-# @dp.message_handler(commands=['stopgpt'])
-# async def start_command(message: types.Message):
-#     await message.answer('Гарного для! Слава Україні!')
-
-
 @dp.message_handler(state=MyStates.WAITING_FOR_INPUT, content_types=types.ContentType.TEXT)
 async def handle_input(message: types.Message, state: FSMContext):
     # Отримати відповідь від користувача
@@ -66,4 +61,3 @@ async def send(message: types.Message):
     update(messages, "system", response['choices'][0]['message']['content'])
 
 
-# executor.start_polling(dp, skip_updates=True)
