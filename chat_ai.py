@@ -25,16 +25,10 @@ class MyStates(StatesGroup):
 def update(messages, role, content):
     messages.append({"role": role, "content": content})
     return messages
-# async def start():
-#     await bot.send_message('Привіт! Задай мені питання)')
 
-# @dp.message_handler(commands=['startgpt'])
+# @dp.message_handler(commands=['stopgpt'])
 # async def start_command(message: types.Message):
-#     await message.answer('Привіт! Задай мені питання)')
-
-@dp.message_handler(commands=['stopgpt'])
-async def start_command(message: types.Message):
-    await message.answer('Гарного для! Слава Україні!')
+#     await message.answer('Гарного для! Слава Україні!')
 
 
 @dp.message_handler(state=MyStates.WAITING_FOR_INPUT, content_types=types.ContentType.TEXT)
