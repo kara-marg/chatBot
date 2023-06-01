@@ -51,6 +51,7 @@ async def translate_language(message: types.Message):
             global dest
             dest = target_language
             await message.answer(f'Ваша мова {dest}', parse_mode="HTML")
+            await message.answer('Вкажіть через "/translate (текст перекладу)" текст, який требе перекласти')
         else:
             await message.answer('Недійсна цільова мова.')
     else:

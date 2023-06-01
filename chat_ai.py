@@ -22,24 +22,19 @@ def update(messages, role, content):
 
 @dp.message_handler(state=MyStates.WAITING_FOR_INPUT, content_types=types.ContentType.TEXT)
 async def handle_input(message: types.Message, state: FSMContext):
-    # Отримати відповідь від користувача
+
     response_text = message.text
 
-    # Очистити стан
     await state.finish()
 
-    # Оновити історію повідомлень
     update(messages, "user", response_text)
 
-    # Знайти відповідь за допомогою OpenAI
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages)
 
-    # Надіслати відповідь користувачу
     message.answer(response['choices'][0]['text'])
 
-    # Оновити історію повідомлень
     update(messages, "system", response['choices'][0]['text'])
 
 
