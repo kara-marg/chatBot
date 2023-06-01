@@ -1,5 +1,3 @@
-import sys
-
 from libraries import detect
 from libraries import Dispatcher, types, Bot, executor, json
 from libraries import dp, bot
