@@ -1,26 +1,20 @@
-print('gpt')
 from libraries import Dispatcher, types, Bot, executor, json
 from libraries import dp, bot
 from libraries import openai
-
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-print('gpt')
+
 file = open('config.json', 'r')
 config = json.load(file)
 
 openai.api_key = config['openai']
 
-
 messages = [
     {"role": "system", "content": "system responds"},
     {"role": "user", "content": "user asks"}]
 
-
 class MyStates(StatesGroup):
     WAITING_FOR_INPUT = State()
-
-
 
 def update(messages, role, content):
     messages.append({"role": role, "content": content})

@@ -1,3 +1,5 @@
+import sys
+
 from libraries import detect
 from libraries import Dispatcher, types, Bot, executor, json
 from libraries import dp, bot
@@ -10,10 +12,10 @@ dest = None
 
 
 class MainMenuState(StatesGroup):
-    MENU = State()  # Стан головного меню
-    TRANSLATOR = State()  # Стан перекладача
-    API = State()  # Стан використання Open API
-    # Додайте інші стани, якщо потрібно
+    MENU = State()
+    TRANSLATOR = State()
+    API = State()
+
 
 
 @dp.message_handler(commands=['start'])
@@ -24,7 +26,7 @@ async def start(message: types.Message):
 
     markup.add(button1, button2)
 
-    await message.answer('Hello, {0.first_name}!'.format(message.from_user), reply_markup=markup)
+    await message.answer('Привіт, {0.first_name}!'.format(message.from_user), reply_markup=markup)
 
 
 @dp.message_handler(text='ChatAI')
@@ -35,7 +37,7 @@ async def bot_message(message: types.Message):
 
 @dp.message_handler(text='Translate')
 async def bot_message_translate(message: types.Message, state: FSMContext):
-    await message.answer('Вкажіть на яку мову треба перекласти. От приклади мов:\n'
+    await message.answer('Вкажіть на яку мову треба перекласти. Для того, щоб ввести мову, треба написати "/language (код мови)" От приклади кодів деяких мов мов:\n'
                          'англійська(en)\n'
                          'українська(uk)\n'
                          'іспанська(es)\n'
@@ -50,29 +52,21 @@ async def translate_language(message: types.Message):
         if target_language in LANGUAGES:
             global dest
             dest = target_language
-            await message.answer(f'Your language is {dest}', parse_mode="HTML")
+            await message.answer(f'Ваша мова {dest}', parse_mode="HTML")
         else:
-            await message.answer('Invalid destination language.')
+            await message.answer('Недійсна цільова мова.')
     else:
-        await message.answer('Please specify the target language1.')
+        await message.answer('Будь ласка, вкажіть цільову мову.')
 
 @dp.message_handler(commands='translate')
 async def handle_translation(message: types.Message):
-    await message.answer('start of translation')
+    await message.answer('Запуск перекладу')
     message_txt = message.text.split(' ', 1)[1]
     if dest is None:
-        await message.answer('Please specify the target language.')
+        await message.answer('Будь ласка, вкажіть цільову мову.')
     else:
         src = detect(message_txt)
         translated_text = translator.translate(message_txt, src=src, dest=dest).text
         await message.answer(translated_text, parse_mode="HTML")
-
-
-@dp.message_handler(commands='exit')
-async def exit_translation(message: types.Message, state: FSMContext):
-    await state.finish()
-    await MainMenuState.MAIN_MENU.set()
-    await message.answer('You have exited the translation mode. Back to the main menu.')
-
 
 executor.start_polling(dp, skip_updates=True)
